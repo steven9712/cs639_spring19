@@ -11,12 +11,16 @@ mr = MapReduce.MapReduce()
 # Do not modify above this line
 
 # Implement the MAP function
-def mapper(# Provide the necessary inputs):
-    # YOUR CODE GOES HERE
+def mapper(friends):
+    friend1 = friends[0]
+    friend2 = friends[1]
+    mr.emit_intermediate(friend1, 1)
+    
 
 # Implement the REDUCE function
-def reducer(# Provide the necessary inputs):
+def reducer(key, value):
     # YOUR CODE GOES HERE
+    mr.emit((key, sum(value)))
 
 # Do not modify below this line
 # =============================

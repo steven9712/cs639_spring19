@@ -11,12 +11,19 @@ mr = MapReduce.MapReduce()
 # Do not modify above this line
 
 # Implement the MAP function
-def mapper(# Provide the necessary inputs):
+def mapper(friends):
     # YOUR CODE GOES HERE
+    person = friends[0]
+    friend = friends[1]
+    mr.emit_intermediate((person, friend), 1)
+    mr.emit_intermediate((person, friend), 1)
+    mr.emit_intermediate((friend, person), 1)
 
 # Implement the REDUCE function
-def reducer(# Provide the necessary inputs):
+def reducer(key, value):
     # YOUR CODE GOES HERE
+    if len(value) == 1:
+        mr.emit(key)
 
 # Do not modify below this line
 # =============================
