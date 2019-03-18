@@ -1,4 +1,5 @@
 import sys
+import re
 
 def create_sent_dict(sentiment_file):
     """A function that creates a dictionary which contains terms as keys and their sentiment score as value
@@ -12,8 +13,12 @@ def create_sent_dict(sentiment_file):
         """
     scores = {}
     
-    YOUR CODE GOES HERE
-    
+    words = open(sentiment_file, 'r')
+    for line in words:
+        term, score = line.split("\t")
+        scores[term] = int(score)
+
+    words.close()
     return scores
 
 def get_tweet_sentiment(tweet, sent_scores):
@@ -28,9 +33,60 @@ def get_tweet_sentiment(tweet, sent_scores):
         """
     score = 0
     
-    YOUR CODE GOES HERE
+    tweet = re.sub('\n', '', tweet)
+    score = 0
+    position = 0
+    seperator = ' '
+    phrase = []
+    tweet = tweet.split(' ')
+    i = 0
+    k = 0
+    diction = {}
     
-    return score
+    while (i < len(tweet)):
+        flag = False
+        position = 0
+        word = tweet[i]
+        phrase.append(word)
+        
+        for j in range(i+1, len(tweet)):
+            phrase.append(tweet[j])
+            seperator = seperator.join(phrase)
+
+            if (seperator in sent_scores.keys()):
+                position = j
+                flag = True
+
+            seperator = ' '
+
+                
+        if (flag == True):
+            
+            while (len(phrase) != (position - i + 1)):
+                   phrase.pop() 
+            word = seperator.join(phrase)
+            if (word in sent_scores.keys()):
+                score += int(sent_scores.get(word))
+                diction[word] = int(sent_scores.get(word))
+                i = position + 1
+        else:
+            if (phrase[0] in sent_scores.keys()):
+                diction[phrase[0]] = int(sent_scores.get(phrase[0]))
+                score += int(sent_scores.get(phrase[0]))
+            else:
+                diction[phrase[0]] = 0
+
+            i = i+1
+            
+        seperator = ' '
+        phrase.clear()
+    new_diction = {}
+    diction_len = len(diction)
+    for key in diction:
+        if (diction.get(key) == 0):
+            new_diction[key] = score / diction_len
+    
+    return new_diction
 
 def term_sentiment(sent_scores, tweets_file):
     """A function that creates a dictionary which contains terms as keys and their sentiment score as value
@@ -43,7 +99,15 @@ def term_sentiment(sent_scores, tweets_file):
             """
     new_term_sent = {}
     
-    YOUR CODE GOES HERE
+    tweets = open(tweets_file, 'r')
+    for tweet in tweets:
+        score = get_tweet_sentiment(tweet, sent_scores)
+
+        for key in score:
+            new_term_sent[key] = score.get(key)
+            
+    tweets.close()
+
     
     return new_term_sent
 

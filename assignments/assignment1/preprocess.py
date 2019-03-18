@@ -2,17 +2,22 @@ import re
 import sys
 import json
 
+def repl(matchObj):
+    char = matchObj.group(1)
+    return "%s%s" % (char, char)
+
 def preprocess_word(word):
     # Remove punctuation
     word = word.strip('\'"?!,.():;')
 
     # Convert more than 2 letter repetitions to 2 letter. Example: funnnnny --> funny
     #TODO: The next line should implement the functionality in the above comment.
-    word = YOUR CODE GOES HERE
+    pattern = re.compile(r"(\w)\1+")
+    word = pattern.sub(repl, word)
 
     # Remove - & '
     # TODO: The next line should implement the functionality in the above comment.
-    word = YOUR CODE GOES HERE
+    word = word.strip('\'-&')
     return word
 
 
@@ -48,15 +53,16 @@ def preprocess_tweet(tweet):
 
     # Replaces #hashtag with hashtag. Example #DataScience should be DataScience
     # TODO: The next line should implement the functionality in the above comment.
-    tweet = YOUR CODE GOES HERE    
+    tweet = tweet.replace("#", "")   
 
     # Remove RT (retweet)
     # TODO: The next line should implement the functionality in the above comment.
-    tweet = YOUR CODE GOES HERE
+    tweet = re.sub('^rt', '', tweet)
+    tweet = re.sub('^RT', '', tweet)
     
     # Replace 2+ dots with space
-    # TODO: The next line should implement the functionality in the above commen
-    tweet = YOUR CODE GOES HERE
+    # TODO: The next line should implement the functionality in the above comment
+    tweet = re.sub('\.{2,}', ' ', tweet)
     
     # Strip space, " and ' from tweet
     tweet = tweet.strip(' "\'')
@@ -89,6 +95,8 @@ def preprocess_json(json_file_name, processed_file_name):
             raw_tweet = tweet['text']
             processed_tweet = preprocess_tweet(raw_tweet)
             save_to_file.write('%s\n' % (processed_tweet))
+        else:
+            save_to_file.write('')
     # Comment out
     save_to_file.close()
     print('\nSaved processed tweets to: %s' % processed_file_name)
