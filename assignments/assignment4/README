@@ -1,3 +1,3 @@
-
-Use scikit learn to be able to determine if a mushroom in the mushroom database is edible or not based on its features that we know.
-I used a decision tree classifier to train the data.
+Use machine learning and the scikit learn library on python to determine which machine learning model performs best with the dataset.
+WIth a given dataset of mushrooms and its features, determine if whether a mushroom is poisonouse or edible.
+A decision tree based model was found to be the one with the best performance.
