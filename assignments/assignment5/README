@@ -1,0 +1,12 @@
+For this task you will need to solve the problem of entity matching over the provided records of products. 
+You can use any technique you want, rule-based entity matching, machine learning-based entity matching etc.
+
+This dataset contains product data from Walmart and Amazon. The dataset contains two tables the left table (denoted by ltable), and the right table (denoted by rtable). Further, the dataset contains a list of training examples that correspond to true product matches (only the ids are given) and a collection of test examples for evaluation.
+ 
+Table ltable has the next schema: ltable_id, title, category, brand, modelno, price
+
+Table rtable has the next schema: rtable_id, title, category, brand, modelno, price
+
+The training data file has the next schema: ltable_id, rtable_id, label, id
+
+The test data file has the next schema: ltable_id, rtable_id, id 
